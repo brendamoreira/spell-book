@@ -1,30 +1,34 @@
 <template>
   <div id="app">
     <h1 class="title">SpellBook</h1>
-    <div class="book">
-      <div class="pageleft">
-      </div>
-      <div class="pageright">
-      </div>
-    </div>
+    <key @submit="spellList"/>
+    <book :spells="spells"/>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Book from './components/Book.vue'
+import Key from './components/Key.vue'
+
 export default {
   name: 'App',
   components: {
-    
+    Book,
+    Key
   },
-  data() {
-
+  data(){
+    return{
+      spells: [],
+    }
   },
   methods: {
-    spellList(){
+    spellList(key){
       axios
-      .get()
-      .then()
+      .get(`https://www.potterapi.com/v1/spells?key=${key}`)
+      .then(response => {
+        this.spells = response.data
+      })
     }
   }
 }
@@ -32,52 +36,31 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Butterfly+Kids&family=Montez&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Princess+Sofia&family=Raleway:wght@200&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Princess+Sofia&family=Raleway:ital,wght@1,200&display=swap');
   /* font-family: 'Montez', cursive;
   font-family: 'Butterfly Kids', cursive;
   font-family: 'Princess Sofia', cursive;
   font-family: 'Raleway', sans-serif;   */
 
+*{
+  box-sizing: border-box;
+}
 body{
   margin: 0;
 }
 #app {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(95, 0, 136);
+  /*background-image: linear-gradient(to bottom, #530077, #57037b, #5b077f, #5f0b83, #630f87, #68148c, #6c1990, #711d95, #77239c, #7e29a3, #842faa, #8b35b1);*/
+  background-image: linear-gradient(to bottom, #530077, #4d1066, #451955, #3d1e46, #332237);  text-align: center;
 }
 
 .title{
   font-family: 'Montez', cursive;
   font-size: 3rem;
-  text-shadow: 2px 2px 8px rgb(57, 57, 57);
+  text-shadow: 2px 2px 5px rgb(29, 29, 29);
   color: rgb(249, 240, 255);
   margin: 0;
   text-align: center;
 }
-.book {
-  margin: 20px auto;
-  width: 600px;
-  height: 400px;
-  border-radius: 8px;
-  border: 20px solid black;
-  background-color: black;
-  box-sizing: border-box;
-  display: flex;
-}
-.pageleft {
-  background-color: #f2eecb;
-  width: 50%;
-  height: 100%;
-  border-radius: 2px 10px 10px 2px;
-  border-right: 0.3px solid black;
-  background-image: linear-gradient(to left, #c1c1c1, #cccccc, #d8d8d8, #e3e3e3, #efefef, #f4f4f4, #fafafa, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff);
-}
-.pageright {
-  width: 50%;
-  height: 100%;
-  border-radius: 10px 2px 2px 10px;
-  border-left: 0.3px solid black;
-  background-image: linear-gradient(to right, #c1c1c1, #cccccc, #d8d8d8, #e3e3e3, #efefef, #f4f4f4, #fafafa, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff);}
 </style>
